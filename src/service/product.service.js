@@ -34,7 +34,7 @@ export default class ProductService {
         include: [{ association: "category", attributes: ["id", "category"] }],
         where: whereClause,
         limit: query.limit,
-        offset: query.offset ? query.offset : 30,
+        offset: query.offset,
       });
     } catch (error) {
       console.log(error);

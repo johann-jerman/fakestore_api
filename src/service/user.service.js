@@ -10,7 +10,9 @@ export default class UserService {
 
   register = async (data) => {
     try {
-      let pass = this.hashPassword(data.password);
+      console.log(data.password);
+      let pass = await this.hashPassword(data.password);
+      console.log(pass);
       data.password = pass;
       return await User.create(data);
     } catch (error) {
@@ -43,7 +45,17 @@ export default class UserService {
   };
   update = async (data, email) => {
     try {
-      //TO DO
+      try {
+        let user = await User.update(data, {
+          where: { email },
+        });
+
+        user = await this.findByEmail(email);
+        return user;
+      } catch (error) {
+        console.log(error);
+        return new StatusError("No existe este producto");
+      }
     } catch (error) {
       console.log(error);
       return new StatusError("No se pudo actualizar al usuario", 400);
@@ -51,7 +63,9 @@ export default class UserService {
   };
   delete = async (id) => {
     try {
-      //TO DO
+      return await Product.destroy({
+        where: { id },
+      });
     } catch (error) {
       console.log(error);
       return new StatusError("No se pudo eliminar al usuario", 400);

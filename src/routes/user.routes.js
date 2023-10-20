@@ -5,10 +5,17 @@ import {
   userValidator,
   loginValidation,
 } from "../middleware/user.validation.js";
+import upload from "../middleware/multer.js";
 const userController = new UserController();
 
-route.post("/register", userValidator, userController.register);
+route.post(
+  "/register",
+  upload.single("image"),
+  userValidator,
+  userController.register
+);
 route.post("/login", loginValidation, userController.login);
+route.get("/", userController.getByEmail);
 route.put("/", userValidator, userController.update);
 route.delete("/:id", userController.delete);
 

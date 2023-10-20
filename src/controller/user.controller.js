@@ -2,9 +2,10 @@ import UserService from "../service/user.service.js";
 
 export class UserController {
   userService = new UserService();
-
+  getByEmail = async (req, res) => {};
   register = async (req, res) => {
     let { firstName, lastName, email, password, image, rolId } = req.body;
+    image = image ? image : "usuarioDefault.png";
     let user = await this.userService.register({
       firstName,
       lastName,
