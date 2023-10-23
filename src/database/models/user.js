@@ -17,23 +17,23 @@ export const User = sequelize.define(
     email: DataTypes.STRING,
     password: DataTypes.STRING,
     image: DataTypes.STRING,
-    rolId: DataTypes.INTEGER,
+    RolId: DataTypes.INTEGER,
   },
   {
-    tablename: "users",
-    timestamp: true,
+    tableName: "Users",
+    timestamps: true,
     paranoid: true,
   }
 );
 
 User.belongsTo(Rol, {
-  foreignkey: "rolId",
+  foreignKey: "RolId",
   targetId: "id",
-  as: "category",
+  as: "rol",
 });
 
 Rol.hasMany(User, {
-  foreinkey: "rolId",
+  foreignKey: "RolId",
   sourceKey: "id",
   as: "user",
 });

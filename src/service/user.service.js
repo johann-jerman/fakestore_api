@@ -10,38 +10,63 @@ export default class UserService {
 
   register = async (data) => {
     try {
-      console.log(data.password);
       let pass = await this.hashPassword(data.password);
-      console.log(pass);
       data.password = pass;
-      return await User.create(data);
+      let user = await User.create(data);
+      if (!user) {
+        throw new StatusError("No se pudo registrar al usuario", 400);
+      }
+
+      return user;
     } catch (error) {
-      console.log(error);
-      return new StatusError("No se pudo registrar al usuario");
+      if (error instanceof StatusError) {
+        return error;
+      } else {
+        return new StatusError("No se pudo registrar al usuario", 400);
+      }
     }
   };
 
   login = async (data) => {
     try {
       let user = await this.findByEmail(data.email);
-      let userIsValid = await this.compareHashPassword(user, data.password);
-      let token = createJWT(userIsValid);
-      userIsValid.token = token;
-      return userIsValid;
+      if (!user) throw new StatusError("Email invalido", 404);
+      let userIsValid = await this.compareHashPassword(
+        data.password,
+        user.password
+      );
+      if (!userIsValid) throw new StatusError("Password invalida", 400);
+      let token = createJWT(user.email);
+      if (!token) throw new StatusError("No se pudo crear el token", 400);
+      user.dataValues.token = token;
+      return user.dataValues;
     } catch (error) {
-      console.log(error);
-      return new StatusError("No se pudo logear al usuario", 400);
+      if (error instanceof StatusError) {
+        return error;
+      } else {
+        return new StatusError("No se pudo logear al usuario", 400);
+      }
     }
   };
   compareHashPassword = async (pass, passToComapare) => {
     return await compareHash(pass, passToComapare);
   };
   findByEmail = async (email) => {
-    return await User.findOne({
-      where: {
-        email,
-      },
-    });
+    try {
+      let user = await User.findOne({
+        where: {
+          email,
+        },
+      });
+      if (!user) throw new StatusError("No se encotro al usuario", 404);
+      return user;
+    } catch (error) {
+      if (error instanceof StatusError) {
+        return error;
+      } else {
+        return new StatusError("No se pudo logear al usuario", 400);
+      }
+    }
   };
   update = async (data, email) => {
     try {
@@ -53,8 +78,11 @@ export default class UserService {
         user = await this.findByEmail(email);
         return user;
       } catch (error) {
-        console.log(error);
-        return new StatusError("No existe este producto");
+        if (error instanceof StatusError) {
+          return error;
+        } else {
+          return new StatusError("No se pudo cambiar al usuario", 400);
+        }
       }
     } catch (error) {
       console.log(error);
@@ -63,7 +91,7 @@ export default class UserService {
   };
   delete = async (id) => {
     try {
-      return await Product.destroy({
+      return await User.destroy({
         where: { id },
       });
     } catch (error) {

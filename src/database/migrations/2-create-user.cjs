@@ -27,7 +27,7 @@ module.exports = {
         type: Sequelize.STRING,
         defaultValue: "usuarioDefaul.png",
       },
-      rolId: {
+      RolId: {
         type: Sequelize.DataTypes.INTEGER,
         allowNull: false,
         references: {

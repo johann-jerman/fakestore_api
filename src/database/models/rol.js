@@ -1,5 +1,4 @@
-'use strict';
-
+"use strict";
 
 import { DataTypes } from "sequelize";
 import { sequelize } from "./index.js";
@@ -11,11 +10,11 @@ export const Rol = sequelize.define(
       primaryKey: true,
       autoIncrement: true,
     },
-    rol: DataTypes.STRING
+    rol: DataTypes.STRING,
   },
   {
-    tablename: "rols",
-    timestamp: true,
-    paranoid: true
+    tableName: "Rols",
+    timestamps: true,
+    paranoid: true,
   }
-)
+);

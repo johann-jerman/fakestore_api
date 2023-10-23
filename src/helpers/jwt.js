@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { hashSync } from "bcrypt";
 import { PAYLOADJWT } from "../config/envs.js";
-const secret = hashSync(PAYLOADJWT, 20);
+const secret = "hashSync(PAYLOADJWT, 10)";
 export const createJWT = (data) => {
   return jwt.sign(data, secret);
 };

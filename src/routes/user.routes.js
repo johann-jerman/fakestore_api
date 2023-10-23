@@ -8,6 +8,7 @@ import {
 import upload from "../middleware/multer.js";
 const userController = new UserController();
 
+//validar email no exista
 route.post(
   "/register",
   upload.single("image"),

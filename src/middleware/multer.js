@@ -4,7 +4,7 @@ const maxFileSize = 10000000;
 
 const storage = diskStorage({
   destination: (req, file, cb) => {
-    cb(null, join(__dirname, "../../public/image"));
+    cb(null, join(process.cwd(), "/public/image"));
   },
   filename: (req, file, cb) => {
     let name = Math.random() * 1 + Date.now() + extname(file.originalname);

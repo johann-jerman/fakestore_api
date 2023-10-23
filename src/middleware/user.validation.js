@@ -1,5 +1,6 @@
 import { body } from "express-validator";
 import path from "path";
+import { User } from "../database/models/user.js";
 
 export const userValidator = [
   body("firstName")
@@ -16,7 +17,18 @@ export const userValidator = [
     .withMessage("El campo debe completarse")
     .bail()
     .isEmail()
-    .withMessage("Incluir tu correo electronico"),
+    .withMessage("Incluir tu correo electronico")
+    .custom(async (val, { req }) => {
+      let user = await User.findOne({
+        where: {
+          email: req.body.email,
+        },
+      });
+
+      if (!user) throw new Error("Email ya registrado");
+
+      return true;
+    }),
   body("password").custom((val, { req }) => {
     let passwordVal = req.body.confirmPassword;
     if (val != passwordVal) {
