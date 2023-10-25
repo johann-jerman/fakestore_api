@@ -7,8 +7,7 @@ export class UserController {
   userService = new UserService();
   getByEmail = async (req, res) => {
     let { email } = req.body;
-    let authorization = req.headers.authorization;
-    let user = await this.userService.findByEmail(email);
+    let authorization = req.headers.authorization?.slice(7);
     let compare = compareJWT(authorization);
     if (!compare) {
       return res.json({
@@ -17,6 +16,7 @@ export class UserController {
         },
       });
     }
+    let user = await this.userService.findByEmail(email);
     res.json({
       data: user,
     });
@@ -30,7 +30,7 @@ export class UserController {
         oldBody: req.body,
       });
     }
-    let { firstName, lastName, email, password, image, rolId } = req.body;
+    let { firstName, lastName, email, password, rolId, image } = req.body;
     image = image ? image : "usuarioDefault.png";
     let user = await this.userService.register({
       firstName,
@@ -94,7 +94,7 @@ export class UserController {
         lastName,
         image,
       },
-      email
+      compare
     );
 
     res.json({
@@ -102,15 +102,6 @@ export class UserController {
     });
   };
   delete = async (req, res) => {
-    let authorization = req.headers.authorization;
-    let compare = compareJWT(authorization);
-    if (!compare) {
-      return res.json({
-        data: {
-          message: "Usuario no autenticado",
-        },
-      });
-    }
     let user = await this.userService.delete(req.params.id);
 
     res.json({

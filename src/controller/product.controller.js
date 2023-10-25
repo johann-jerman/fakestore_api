@@ -1,3 +1,4 @@
+import { compareJWT } from "../helpers/jwt.js";
 import ProductService from "../service/product.service.js";
 import { validationResult } from "express-validator";
 
@@ -26,13 +27,8 @@ export class ProductController {
         oldBody: req.body,
       });
     }
-    let { name, price, description, productCategory } = req.body;
-    let products = await this.productService.create({
-      name,
-      price,
-      description,
-      ProductCategoryId: productCategory,
-    });
+    let { files, body } = req;
+    let products = await this.productService.create(body, files);
     res.json({
       data: products,
     });

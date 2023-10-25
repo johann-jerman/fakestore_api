@@ -25,7 +25,7 @@ export const userValidator = [
         },
       });
 
-      if (!user) throw new Error("Email ya registrado");
+      if (user) throw new Error("Email ya registrado");
 
       return true;
     }),
@@ -36,19 +36,19 @@ export const userValidator = [
     }
     return true;
   }),
-  // body("image").custom((val, { req }) => {
-  //   const validExtension = [".jpg", ".jpeg", ".png"];
-  //   const file = req.file;
+  body("image").custom((val, { req }) => {
+    const validExtension = [".jpg", ".jpeg", ".png"];
+    const file = req.file;
 
-  //   if (req.file) {
-  //     const extension = path.extname(file.originalname);
-  //     if (!validExtension.includes(extension)) {
-  //       throw new Error(`Debe incluir ${validExtension.join(", ")}`);
-  //     }
-  //   }
+    if (req.file) {
+      const extension = path.extname(file.originalname);
+      if (!validExtension.includes(extension)) {
+        throw new Error(`Debe incluir ${validExtension.join(", ")}`);
+      }
+    }
 
-  //   return true;
-  // }),
+    return true;
+  }),
 ];
 
 export const loginValidation = [

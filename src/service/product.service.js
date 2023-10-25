@@ -31,7 +31,13 @@ export default class ProductService {
       }
 
       return await Product.findAll({
-        include: [{ association: "category", attributes: ["id", "category"] }],
+        include: [
+          { association: "category", attributes: ["id", "category"] },
+          {
+            association: "images",
+            attributes: ["id", "image", "type", "size", "path"],
+          },
+        ],
         where: whereClause,
         limit: query.limit,
         offset: query.offset,
@@ -43,17 +49,44 @@ export default class ProductService {
   };
   findById = async (id) => {
     try {
-      return await Product.findByPk(id);
+      return await Product.findByPk(id, {
+        include: [
+          { association: "category", attributes: ["id", "category"] },
+          {
+            association: "images",
+            attributes: ["id", "image", "type", "size", "path"],
+          },
+        ],
+      });
     } catch (error) {
       console.log(error);
       return new StatusError("No existe este producto");
     }
   };
-  create = async (data) => {
+  create = async (data, files) => {
     try {
-      return await Product.create(data);
+      let images = files.map((image) => {
+        console.log(image);
+        return {
+          image: image.filename,
+          type: image.mimetype,
+          size: image.size,
+          path: "/image/" + image.filename,
+        };
+      });
+
+      let newProduct = await Product.create(
+        {
+          name: data.name,
+          price: data.price,
+          description: data.description,
+          ProductCategoryId: data.productCategory,
+          images: images,
+        },
+        { include: ["images"] }
+      );
+      return newProduct;
     } catch (error) {
-      console.log(error);
       return new StatusError("No existe este producto");
     }
   };

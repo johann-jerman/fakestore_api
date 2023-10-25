@@ -6,6 +6,7 @@ import {
   loginValidation,
 } from "../middleware/user.validation.js";
 import upload from "../middleware/multer.js";
+import { AuthMiddleware } from "../middleware/auth.middleware.js";
 const userController = new UserController();
 
 //validar email no exista
@@ -16,8 +17,8 @@ route.post(
   userController.register
 );
 route.post("/login", loginValidation, userController.login);
-route.get("/", userController.getByEmail);
+route.get("/", AuthMiddleware, userController.getByEmail);
 route.put("/", userValidator, userController.update);
-route.delete("/:id", userController.delete);
+route.delete("/:id", AuthMiddleware, userController.delete);
 
 export default route;
