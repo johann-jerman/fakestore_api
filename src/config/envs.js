@@ -11,4 +11,5 @@ export const {
   DB_USERNAME,
   DB_CONNECTIONSTRING,
   PAYLOADJWT,
+  HOST,
 } = process.env;

@@ -1,0 +1,187 @@
+paths:
+  /api/product/:
+    get:
+      tags:
+        - Products
+      summary: Obtiene Array de productos según filtros
+      description: Endpoint para recuperar productos según filtros
+      parameters:
+        - in: query
+          name: offset
+          required: false
+          schema:
+            type: number
+            example: 0
+          description: Offset de elementos recibidos.
+        - in: query
+          name: limit
+          required: false
+          schema:
+            type: number
+            example: 20
+          description: Limit de elementos recibidos.
+        - in: query
+          name: min_price
+          required: false
+          schema:
+            type: number
+            example: 2000
+          description: Precio minimo de elementos.
+        - in: query
+          name: max_price
+          required: false
+          schema:
+            type: number
+            example: 2500
+          description: Precio maximo de elementos.
+        - in: query
+          name: categoryId
+          required: false
+          schema:
+            type: number
+            example: 1
+          description: Categoria de elementos.
+      responses:
+        200:
+          description:
+        400:
+          description:
+        500:
+          description: Error del servidor
+  /api/product/create:
+    post:
+      tags:
+        - Products
+      summary: Crea un nuevo product TOKEN NECESARIO
+      description: Crea un nuevo producto siguiendo siertas condiciones
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: product name
+                price:
+                  type: number
+                  example: 123456
+                description:
+                  type: string
+                  example: product description max 700 caracteres
+                productCategory:
+                  type: number
+                  example: 1
+                image:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+                  description: Lista de imágenes (puede contener más de una imagen)
+      responses:
+        200:
+          description:
+        400:
+          description:
+        500:
+          description: Error del servidor
+  /api/product/{id}:
+    post:
+      tags:
+        - Products
+      summary: Crea un nuevo product TOKEN NECESARIO
+      description: Crea un nuevo producto siguiendo siertas condiciones
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: product name
+                price:
+                  type: number
+                  example: 123456
+                description:
+                  type: string
+                  example: product description max 700 caracteres
+                productCategory:
+                  type: number
+                  example: 1
+                image:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+                  description: Lista de imágenes (puede contener más de una imagen)
+      responses:
+        200:
+          description:
+        400:
+          description:
+        500:
+          description: Error del servidor
+  /api/update/{id}:
+    put:
+      tags:
+        - Products
+      summary: Editar un nuevo product TOKEN NECESARIO
+      description: Editar un producto siguiendo siertas condiciones
+      parameters:
+        - in: params
+          name: id
+          required: true
+          schema:
+            type: string
+            example: 3
+          description: actualizar producto.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: product name
+                price:
+                  type: number
+                  example: 123456
+                description:
+                  type: string
+                  example: product description max 700 caracteres
+                productCategory:
+                  type: number
+                  example: 1
+      responses:
+        200:
+          description:
+        400:
+          description:
+        500:
+          description: Error del servidor
+  /api/delete/{id}:
+    delete:
+      tags:
+        - Products
+      summary: Eliminar un product TOKEN NECESARIO
+      description: Eliminar un producto
+      parameters:
+        - in: params
+          name: id
+          required: true
+          schema:
+            type: string
+            example: 3
+          description: eliminar producto.
+      responses:
+        200:
+          description:
+        400:
+          description:
+        500:
+          description: Error del servidor

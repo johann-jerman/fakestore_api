@@ -1,0 +1,6 @@
+version: '3'
+services:
+  web:
+    image: node:18-alpine3.17
+    container_name: fakestore_api
+    working_dir: /app

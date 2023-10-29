@@ -11,7 +11,7 @@ const productController = new ProductController();
 
 route.get("/", productController.getAll);
 route.post(
-  "/",
+  "/create",
   upload.array("image", 5),
   productValidator,
   AuthMiddleware,
@@ -19,11 +19,11 @@ route.post(
 );
 route.get("/:id", productController.getById);
 route.put(
-  "/:id",
+  "/update/:id",
   productUpdateValidator,
   AuthMiddleware,
   productController.update
 );
-route.delete("/:id", AuthMiddleware, productController.delete);
+route.delete("/delete/:id", AuthMiddleware, productController.delete);
 
 export default route;

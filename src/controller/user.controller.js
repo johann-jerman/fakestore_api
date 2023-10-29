@@ -6,7 +6,7 @@ import { validationResult } from "express-validator";
 export class UserController {
   userService = new UserService();
   getByEmail = async (req, res) => {
-    let { email } = req.body;
+    let { id } = req.params;
     let authorization = req.headers.authorization?.slice(7);
     let compare = compareJWT(authorization);
     if (!compare) {
@@ -16,7 +16,7 @@ export class UserController {
         },
       });
     }
-    let user = await this.userService.findByEmail(email);
+    let user = await this.userService.findByEmail(id);
     res.json({
       data: user,
     });

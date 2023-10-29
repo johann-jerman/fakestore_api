@@ -66,7 +66,6 @@ export default class ProductService {
   create = async (data, files) => {
     try {
       let images = files.map((image) => {
-        console.log(image);
         return {
           image: image.filename,
           type: image.mimetype,

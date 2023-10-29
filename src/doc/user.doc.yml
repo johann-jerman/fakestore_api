@@ -1,0 +1,182 @@
+openapi: 3.0.0
+info:
+  title: API de Ejemplo
+  version: 1.0.0
+  description: Documentacion de una tienda online falsa
+
+tags:
+  - name: Users
+    description: Endpoints relacionados con usuarios
+  - name: Products
+    description: Endpoints relacionados con productos
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+
+security:
+  - BearerAuth: []
+
+/api/user/register:
+  post:
+    tags:
+      - Users
+    summary: Registrar un nuevo usuario con imagen
+    description: Crea un nuevo usuario con una imagen.
+    requestBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              firstName:
+                type: string
+                example: Jhon
+              lastName:
+                type: string
+                example: Doe
+              email:
+                type: string
+                example: jhondoe@gmail.com
+              password:
+                type: string
+                example: 123456
+              confirmPassword:
+                type: string
+                example: 123456
+              rolId:
+                type: valid Rol ID
+                example: 1
+              image:
+                type: string
+                format: binary
+    responses:
+      200:
+        description: Usuario registrado exitosamente
+      400:
+        description: No se pudo registrar al usuario
+      500:
+        description: Error del servidor
+/api/user/login:
+  post:
+    tags:
+      - Users
+    summary: Logear a un usuario previamente creado
+    description: Crea un nuevo usuario existente.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+                example: jhondoe@gmail.com
+              password:
+                type: string
+                example: 123456
+    responses:
+      200:
+        description: Usuario logeado exitosamente
+      400:
+        description: No se pudo logear al usuario
+      500:
+        description: Error del servidor
+
+/api/user/:
+  get:
+    tags:
+      - Users
+    summary: Obtener usuario por Email TOKEN NECESARIO
+    description: Obtener usuario por su dirección de correo electrónico.
+    parameters:
+      - in: query
+        name: id
+        required: true
+        schema:
+          type: string
+          example: 3
+        description: Dirección de correo electrónico del usuario a buscar.
+      - in: header
+        name: Authorization
+        required: true
+        schema:
+          type: string
+          example: Bearer eyJhbGciOiJIUzI1NiJ9.amhvbmRvZUBnbWFpbC5jb20.yunF2J6cskCXkMYkgh8hMgdVUJtNfPQjwcrfPU4br_E
+        description: Token de autorización JWT
+    responses:
+      200:
+        description: Usuario obtenido exitosamente
+      400:
+        description: No se pudo obtener el usuario
+      500:
+        description: Error del servidor
+/api/user/{id}:
+  put:
+    tags:
+      - Users
+    summary: Actualizar un usuario existente TOKEN NECESARIO
+    description: Actualizar un usuario existente.
+    parameters:
+      - in: params
+        name: id
+        required: true
+        schema:
+          type: string
+          example: 3
+        description: no se pudo actualizar el usuario.
+      - in: header
+        name: Authorization
+        required: true
+        schema:
+          type: string
+          example: Bearer eyJhbGciOiJIUzI1NiJ9.amhvbmRvZUBnbWFpbC5jb20.yunF2J6cskCXkMYkgh8hMgdVUJtNfPQjwcrfPU4br_E
+        description: Token de autorización JWT
+    requestBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              firstName:
+                type: string
+                example: Jhon
+              lastName:
+                type: string
+                example: Doe
+              image:
+                type: string
+                format: binary
+    responses:
+      200:
+        description: Usuario registrado exitosamente
+      400:
+        description: No se pudo registrar al usuario
+      500:
+        description: Error del servidor
+/api/user/delete/{id}:
+  delete:
+    tags:
+      - Users
+    summary: Eliminar usuario existente TOKEN NECESARIO
+    description: Eliminar usuario existente.
+    parameters:
+      - in: params
+        name: id
+        required: true
+        schema:
+          type: number
+          example: 3
+        description: No se pudo eliminar el usuario.
+    responses:
+      200:
+        description: Usuario registrado exitosamente
+      400:
+        description: No se pudo registrar al usuario
+      500:
+        description: Error del servidor

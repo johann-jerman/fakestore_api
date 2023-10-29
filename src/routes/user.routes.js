@@ -10,6 +10,7 @@ import { AuthMiddleware } from "../middleware/auth.middleware.js";
 const userController = new UserController();
 
 //validar email no exista
+
 route.post(
   "/register",
   upload.single("image"),
@@ -19,6 +20,6 @@ route.post(
 route.post("/login", loginValidation, userController.login);
 route.get("/", AuthMiddleware, userController.getByEmail);
 route.put("/", userValidator, userController.update);
-route.delete("/:id", AuthMiddleware, userController.delete);
+route.delete("/delete/:id", AuthMiddleware, userController.delete);
 
 export default route;
