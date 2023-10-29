@@ -1,6 +1,19 @@
-version: '3'
+version: '3.8'
 services:
-  web:
-    image: node:18-alpine3.17
-    container_name: fakestore_api
-    working_dir: /app
+  postgresbd:
+    image: postgres
+    env_file: ./.env
+    environment:
+      - POSTGRES_PASSWORD=$DB_PASSWORD
+      - POSTGRES_USER=$DB_USERNAME
+      - POSTGRES_DB=$DB_DATABASE
+    ports:
+      - 3306:3306
+  app: 
+    build: .
+    depends_on:
+      - postgresbd
+    links:
+      - postgresbd
+    ports:
+      - 3004:3004
