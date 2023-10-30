@@ -35,3 +35,5 @@ app.listen(port, () => {
   if (ENV == "DEV") console.log(`http://localhost:${port}`);
   userSwaggerDoc(app, port);
 });
+
+export default app;
