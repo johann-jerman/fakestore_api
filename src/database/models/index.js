@@ -32,8 +32,9 @@ import {
 //     port: 5432,
 //   });
 // }
-export const sequelize = new Sequelize(DB_DATABASE, DB_USERNAME, DB_PASSWORD, {
-  host: "localhost",
-  dialect:
-    "postgres" /* one of  | 'postgres' | 'sqlite' | 'mariadb' | 'mssql' | 'db2' | 'snowflake' | 'oracle' */,
-});
+export const sequelize = new Sequelize(DB_CONNECTIONSTRING);
+// export const sequelize = new Sequelize(DB_DATABASE, DB_USERNAME, DB_PASSWORD, {
+//   host: "localhost",
+//   dialect:
+//     "postgres" /* one of  | 'postgres' | 'sqlite' | 'mariadb' | 'mssql' | 'db2' | 'snowflake' | 'oracle' */,
+// });
